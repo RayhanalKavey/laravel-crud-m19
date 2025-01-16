@@ -13,7 +13,6 @@ class Product extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($product) {
             $product->product_id = str_replace(' ', '', strtolower($product->name)) . rand(1000, 9999);
         });

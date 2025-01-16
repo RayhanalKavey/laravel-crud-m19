@@ -1,3 +1,4 @@
+<!-- Form to edit an existing product -->
 @extends('Layout.app')
 
 @section('content')

@@ -1,3 +1,4 @@
+<!-- View a specific product's details -->
 @extends('Layout.app')
 
 @section('content')

@@ -6,28 +6,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-/* === List All Products === */
-Route::get('/products',[ProductController::class,'getAllProducts']);
 
-/* === Show the form to create a new product === */
-Route::get('/products/create',[ProductController::class,'createProducts']);
+Route::get('/products',[ProductController::class,'getAllProducts'])->name('products.index');//List All Products
 
-/* === Store a new product === */
-Route::post('/products',[ProductController::class,'storeProducts']);
+Route::get('/products/create',[ProductController::class,'createProducts'])->name('products.create');//Show the form to create a new product
 
-/* === Show a specific product === */
-Route::get('/products/{id}',[ProductController::class,'specificProducts']);
+Route::post('/products',[ProductController::class,'storeProducts'])->name('products.store');//Store a new product
 
-/* === Show the form to edit a product === */
-Route::get('/products/{id}/edit',[ProductController::class,'editProducts']);
+Route::get('/products/{id}',[ProductController::class,'specificProducts'])->name('products.show');//Show a specific product
 
-/* === Update a product === */
-Route::put('/products/{id}',[ProductController::class,'updateProducts']);
+Route::get('/products/{id}/edit',[ProductController::class,'editProducts'])->name('products.edit');//Show the form to edit a product
 
-/* === Delete a product === */
-Route::delete('/products/{id}',[ProductController::class,'deleteProducts']);
+Route::put('/products/{id}',[ProductController::class,'updateProducts'])->name('update.store');//Update a product
 
-/* 
-
-DELETE /products/{id}: Delete a product
-*/
+Route::delete('/products/{id}',[ProductController::class,'deleteProducts'])->name('products.delete');//Delete a product

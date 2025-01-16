@@ -9,13 +9,8 @@ class ProductController extends Controller
 {
     /* === List All Products === */
     public function getAllProducts(){
-        return view('index');
-        $products= Product::get();
-        return response()->json([
-            "status"=>true,
-            "message"=>"Product found successfully",
-            "products"=>$products
-        ]) ;
+        $products = Product::all(); // paginate()
+        return view('index', compact('products'));
     }
 
     /* === Show the form to create a new product === */
@@ -25,11 +20,28 @@ class ProductController extends Controller
 
     /* === Store a new product === */
     public function storeProducts(Request $request){
-        return response()->json([
-            "status"=>true,
-            "message"=>"Product created successfully",
-            "products"=>Product::create($request->input())
-        ]) ;
+        $request->validate([
+            "name"=>"required|string|max:255",
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'nullable|integer|min:0',
+            'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        // Store the image in public folder and get the image path
+        $imagePath = $request->file('image')->store('products', 'public');
+        // dd($imagePath);
+
+        Product::create([
+        'product_id' => $request->product_id,
+        'name' => $request->name,
+        'description' => $request->description,
+        'price' => $request->price,
+        'stock' => $request->stock,
+        'image' => $imagePath,
+         ]);
+        
+        return redirect()->route('products.index')->with('success','Product created successfully');
     }
 
     /* === Show a specific product === */
