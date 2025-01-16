@@ -45,7 +45,7 @@
                                 <img src="{{ asset("storage/{$product->image}") }}" alt="{{ $product->name }}" class="w-16 h-16 object-cover rounded">
                             </td>
                             <td class="px-6 py-4 text-center text-sm font-medium">
-                              
+                               <a href="{{ route('products.show', $product->id) }}" class="text-blue-600 hover:underline">Show</a> | 
                                 <a href="{{ route('products.edit', $product->id) }}" class="text-blue-600 hover:underline">Edit</a> | 
                                 <form action="{{ route('products.delete', $product->id) }}" method="POST" class="inline-block">
                                     @csrf

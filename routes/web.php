@@ -17,6 +17,6 @@ Route::get('/products/{id}',[ProductController::class,'specificProducts'])->name
 
 Route::get('/products/{id}/edit',[ProductController::class,'editProducts'])->name('products.edit');//Show the form to edit a product
 
-Route::put('/products/{id}',[ProductController::class,'updateProducts'])->name('update.store');//Update a product
+Route::put('/products/{id}',[ProductController::class,'updateProducts'])->name('products.update');//Update a product
 
 Route::delete('/products/{id}',[ProductController::class,'deleteProducts'])->name('products.delete');//Delete a product
