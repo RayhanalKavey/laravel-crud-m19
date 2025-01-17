@@ -14,6 +14,13 @@ public function getAllProducts(Request $request)
 {
     $query = Product::query();
 
+    // Search filter
+    if ($request->has('search')) {
+        $search = $request->input('search');
+        $query->where('name', 'like', '%' . $search . '%')
+              ->orWhere('description', 'like', '%' . $search . '%');
+    }
+
     // Define the default sort order
     $defaultSortOrder = 'asc';
 
