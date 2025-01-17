@@ -8,11 +8,39 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /* === List All Products === */
-    public function getAllProducts(){
-        $products = Product::all(); // paginate()
-        return view('index', compact('products'));
+    
+/* === List All Products === */
+public function getAllProducts(Request $request)
+{
+    $query = Product::query();
+
+    // Define the default sort order
+    $defaultSortOrder = 'asc';
+
+    // Get the sorting field and order from the request
+    $sortField = $request->input('sort_field', 'price'); // Default to 'price'
+    $sortOrder = $request->input('sort_order', 'asc');  // Default to 'asc'
+
+    // Debugging (check incoming values)
+    // Log::info('Sorting Field: ' . $sortField);
+    // Log::info('Sorting Order: ' . $sortOrder);
+
+    // Apply sorting dynamically based on the 'sort_field'
+    if ($sortField == 'price') {
+        $query->orderBy('price', $sortOrder);
+    } elseif ($sortField == 'name') {
+        $query->orderBy('name', $sortOrder);
+    } else {
+        // Default sorting
+        $query->orderBy('price', $defaultSortOrder)->orderBy('name', $defaultSortOrder);
     }
+
+    // Paginate the results and append query parameters
+    $products = $query->paginate(2)->appends($request->all());
+
+    return view('index', compact('products'));
+}
+
 
     /* === Show the form to create a new product === */
     public function createProducts(){
