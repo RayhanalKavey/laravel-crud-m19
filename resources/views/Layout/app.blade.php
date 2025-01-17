@@ -10,10 +10,5 @@
    @include('Layout.header')
   
   @yield('content')
-  
-  <!-- <footer class="text-xl font-bold text-center text-purple-500 uppercase py-6 bg-fuchsia-50 ">
-   RAK
- </footer>
-  -->
 </body>
 </html>

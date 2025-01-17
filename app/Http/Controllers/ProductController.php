@@ -18,19 +18,18 @@ public function getAllProducts(Request $request)
     if ($request->has('search')) {
         $search = $request->input('search');
         $query->where('name', 'like', '%' . $search . '%')
-              ->orWhere('description', 'like', '%' . $search . '%');
+              ->orWhere('description', 'like', '%' . $search . '%')
+              ->orWhere('id', 'like', '%' . $search . '%') 
+              ->orWhere('price', 'like', '%' . $search . '%');
     }
 
     // Define the default sort order
     $defaultSortOrder = 'asc';
 
     // Get the sorting field and order from the request
-    $sortField = $request->input('sort_field', 'price'); // Default to 'price'
-    $sortOrder = $request->input('sort_order', 'asc');  // Default to 'asc'
+    $sortField = $request->input('sort_field', 'price'); 
+    $sortOrder = $request->input('sort_order', 'asc'); 
 
-    // Debugging (check incoming values)
-    // Log::info('Sorting Field: ' . $sortField);
-    // Log::info('Sorting Order: ' . $sortOrder);
 
     // Apply sorting dynamically based on the 'sort_field'
     if ($sortField == 'price') {
@@ -44,7 +43,6 @@ public function getAllProducts(Request $request)
 
     // Paginate the results and append query parameters
     $products = $query->paginate(2)->appends($request->all());
-
     return view('index', compact('products'));
 }
 
@@ -66,7 +64,6 @@ public function getAllProducts(Request $request)
 
         // Store the image in public folder and get the image path
         $imagePath = $request->file('image')->store('products', 'public');
-        // dd($imagePath);
 
         Product::create([
         'product_id' => $request->product_id,

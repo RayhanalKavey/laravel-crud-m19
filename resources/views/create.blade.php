@@ -1,4 +1,3 @@
-<!-- Form to create a new product -->
 @extends('Layout.app')
 
 @section('content')

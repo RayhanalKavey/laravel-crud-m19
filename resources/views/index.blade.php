@@ -4,12 +4,11 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-16">
    <form action="{{ route('products.index') }}" method="GET" class="mb-6">
         <div class="flex items-center space-x-4">
-            <input type="text" name="search" class="form-input block w-full border border-gray-300 rounded p-2" placeholder="Search by name or description" value="{{ request('search') }}">
+            <input type="text" name="search" class="form-input block w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-4 focus:ring-fuchsia-300" placeholder="Search by name or description" value="{{ request('search') }}">
             <button type="submit" class="bg-fuchsia-900 text-white px-4 py-2 rounded hover:bg-fuchsia-800 transition">Search</button>
         </div>
    </form>
    <div class="mb-4 flex items-center space-x-4">
-     
       <form action="{{ route('products.index') }}" method="GET" class="flex items-center space-x-4">
          <!-- Sort Field -->
          <label for="sort_field" class="text-sm text-gray-600">Sort By:</label>
