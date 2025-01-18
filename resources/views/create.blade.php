@@ -1,8 +1,8 @@
 @extends('Layout.app')
 
 @section('content')
-<div class="flex items-center justify-center min-h-screen bg-gray-100 px-6">
-    <div class="max-w-3xl w-full bg-white p-8 rounded-lg shadow-lg">
+<div class="flex items-center justify-center min-h-screen ">
+    <div class="max-w-3xl w-full  p-8 ">
         <h1 class="text-3xl font-bold text-fuchsia-900 mb-8 text-center">Add New Product</h1>
 
         <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">

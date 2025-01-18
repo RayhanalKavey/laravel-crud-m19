@@ -42,7 +42,7 @@ public function getAllProducts(Request $request)
     }
 
     // Paginate the results and append query parameters
-    $products = $query->paginate(2)->appends($request->all());
+    $products = $query->paginate(6)->appends($request->all());
     return view('index', compact('products'));
 }
 
@@ -96,7 +96,7 @@ public function getAllProducts(Request $request)
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'nullable|integer|min:0',
-            'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         $product = Product::findOrFail($request->id);

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto max-w-5xl py-10">
-    <div class="bg-white p-8 rounded-lg shadow-xl space-y-8">
+    <div class="bg-white p-8  space-y-8">
         <!-- Product Image -->
         <div class="flex justify-center mb-8">
             @if($product->image)

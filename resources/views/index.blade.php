@@ -4,7 +4,7 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-16">
    <form action="{{ route('products.index') }}" method="GET" class="mb-6">
         <div class="flex items-center space-x-4">
-            <input type="text" name="search" class="form-input block w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-4 focus:ring-fuchsia-300" placeholder="Search by name or description" value="{{ request('search') }}">
+            <input type="text" name="search" class="form-input block w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-4 focus:ring-fuchsia-300" placeholder="Search by name, description, id or price" value="{{ request('search') }}">
             <button type="submit" class="bg-fuchsia-900 text-white px-4 py-2 rounded hover:bg-fuchsia-800 transition">Search</button>
         </div>
    </form>
@@ -66,15 +66,33 @@
                             <td class="px-6 py-4">
                                 <img src="{{ asset("storage/{$product->image}") }}" alt="{{ $product->name }}" class="w-16 h-16 object-cover rounded">
                             </td>
-                            <td class="px-6 py-4 text-center text-sm font-medium">
-                               <a href="{{ route('products.show', $product->id) }}" class="text-blue-600 hover:underline">Show</a> | 
-                                <a href="{{ route('products.edit', $product->id) }}" class="text-blue-600 hover:underline">Edit</a> | 
-                                <form action="{{ route('products.delete', $product->id) }}" method="POST" class="inline-block">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:underline" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
-                                </form>
+                           <td class="px-6 py-4 text-center text-sm font-medium">
+                                <div class="flex justify-center items-center space-x-4">
+                                    <!-- Show Button -->
+                                    <a href="{{ route('products.show', $product->id) }}" 
+                                    class="bg-fuchsia-100 text-fuchsia-600 px-3 py-1 rounded-md hover:bg-fuchsia-200 hover:text-fuchsia-700 transition">
+                                    Show
+                                    </a>
+
+                                    <!-- Edit Button -->
+                                    <a href="{{ route('products.edit', $product->id) }}" 
+                                    class="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-md hover:bg-yellow-200 hover:text-yellow-700 transition">
+                                    Edit
+                                    </a>
+
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('products.delete', $product->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" 
+                                                class="bg-red-100 text-red-600 px-3 py-1 rounded-md hover:bg-red-200 hover:text-red-700 transition"
+                                                onclick="return confirm('Are you sure you want to delete this product?');">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
+
                         </tr>
                     @endforeach
                 </tbody>
