@@ -27,6 +27,5 @@ This project demonstrates a Laravel application with CRUD (Create, Read, Update,
 ### 4. **Pagination**
 
 -   Display products in a paginated format for better user experience.
--   Pagination persists query parameters for seamless navigation between pages during search or sorting.
 
 ---
