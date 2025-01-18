@@ -2,12 +2,18 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-16">
-   <form action="{{ route('products.index') }}" method="GET" class="mb-6">
+   <!-- <form action="{{ route('products.index') }}" method="GET" class="mb-6">
         <div class="flex items-center space-x-4">
             <input type="text" name="search" class="form-input block w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-4 focus:ring-fuchsia-300" placeholder="Search by name, description, id or price" value="{{ request('search') }}">
             <button type="submit" class="bg-fuchsia-900 text-white px-4 py-2 rounded hover:bg-fuchsia-800 transition">Search</button>
         </div>
-   </form>
+   </form> -->
+   <div class="container mx-auto max-w-5xl py-10">
+    <h2 class="text-4xl font-extrabold mb-10 text-fuchsia-900 text-center">Search Products</h2>
+    <input type="text" id="search" placeholder="Search products..."
+        class="bg-gray-50 border-2 border-fuchsia-900 rounded-lg p-4 focus:outline-none focus:ring-4 focus:ring-fuchsia-300 w-full">
+    <!-- <div id="searchResults" class="mt-5 bg-white shadow-lg rounded-lg p-4"></div> -->
+</div>
    <div class="mb-4 flex items-center space-x-4">
       <form action="{{ route('products.index') }}" method="GET" class="flex items-center space-x-4">
          <!-- Sort Field -->
@@ -55,7 +61,7 @@
                         <th class="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200">
+                <tbody id="productTableBody" class="divide-y divide-gray-200">
                     @foreach($products as $product)
                         <tr>
                             <td class="px-6 py-4 text-sm text-gray-900">{{ $product->id }}</td>
@@ -128,4 +134,78 @@
 
     @endif
 </div>
+<script>
+//     document.getElementById('search').addEventListener('input', function () {
+//     let query = this.value;
+
+//     // যদি ইনপুট ফাঁকা হয়, রেজাল্ট ডিভ ক্লিয়ার করে দিন
+//     if (!query) {
+//         document.getElementById('searchResults').innerHTML = '';
+//         return;
+//     }
+
+//     // Ajax রিকোয়েস্ট পাঠানো
+//     fetch(`/products/search?query=${query}`)
+//         .then(response => response.json())
+//         .then(data => {
+//             let results = '';
+//             if (data.length > 0) {
+//                 data.forEach(product => {
+//                     results += `
+//                         <div class="p-2 border-b border-gray-200">
+//                             <h3 class="font-bold text-lg">${product.name}</h3>
+//                             <p class="text-gray-600">${product.description || 'No description available'}</p>
+//                             <p class="text-fuchsia-700 font-semibold">Price: $${product.price}</p>
+//                         </div>
+//                     `;
+//                 });
+//             } else {
+//                 results = `<p class="text-gray-500">No products found.</p>`;
+//             }
+//             document.getElementById('searchResults').innerHTML = results;
+//         });
+// });
+document.getElementById('search').addEventListener('keyup', function () {
+    const query = this.value;
+
+    fetch(`/search-products?query=${query}`)
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('productTableBody');
+            tableBody.innerHTML = ''; // Clear the current table rows
+
+            if (data.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-gray-500 py-4">No products found.</td></tr>`;
+                return;
+            }
+
+            data.forEach(product => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td class="px-6 py-4 text-sm text-gray-900">${product.id}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${product.name}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${product.description}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${parseFloat(product.price).toFixed(2)}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${product.stock || 'N/A'}</td>
+                        <td class="px-6 py-4">
+                            <img src="/storage/${product.image}" alt="${product.name}" class="w-16 h-16 object-cover rounded">
+                        </td>
+                        <td class="px-6 py-4 text-center text-sm font-medium">
+                            <div class="flex justify-center items-center space-x-4">
+                                <a href="/products/${product.id}" class="bg-fuchsia-100 text-fuchsia-600 px-3 py-1 rounded-md hover:bg-fuchsia-200 hover:text-fuchsia-700 transition">Show</a>
+                                <a href="/products/${product.id}/edit" class="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-md hover:bg-yellow-200 hover:text-yellow-700 transition">Edit</a>
+                                <form action="/products/${product.id}" method="POST" class="inline-block">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="bg-red-100 text-red-600 px-3 py-1 rounded-md hover:bg-red-200 hover:text-red-700 transition" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        });
+});
+
+</script>
 @endsection

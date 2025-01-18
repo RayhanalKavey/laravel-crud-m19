@@ -7,6 +7,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/search-products', [ProductController::class, 'searchProducts'])->name('products.search');
+
 Route::get('/products',[ProductController::class,'getAllProducts'])->name('products.index');//List All Products
 
 Route::get('/products/create',[ProductController::class,'createProducts'])->name('products.create');//Show the form to create a new product

@@ -136,4 +136,17 @@ public function getAllProducts(Request $request)
             return redirect()->route('products.index')->with('error', 'Failed to delete the product. Please try again.');
         }
     }
+public function searchProducts(Request $request)
+{
+    $query = $request->input('query');
+
+    $products = Product::where('name', 'like', "%$query%")
+        ->orWhere('description', 'like', "%$query%")
+        ->orWhere('price', 'like', "%$query%")
+        ->orWhere('id', 'like', "%$query%") 
+        ->get();
+
+    return response()->json($products);
+}
+
 }
